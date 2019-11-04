@@ -1,0 +1,58 @@
+﻿@model IEnumerable<Hangfire.WebUI.Models.CroneJob>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>My Crone Jobs</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.JobName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.JobUrl)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RequestType)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RepeatEvery)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DateAdded)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.JobName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.JobUrl)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RequestType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RepeatEvery)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateAdded)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+            </td>
+        </tr>
+    }
+
+</table>

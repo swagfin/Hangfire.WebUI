@@ -1,0 +1,78 @@
+﻿@model Hangfire.WebUI.Models.CroneJob
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edit</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>CroneJob</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.Id)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.JobName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.JobName, new { htmlAttributes = new { @class = "form-control", placeholder = "Enter Job Name" } })
+                @Html.ValidationMessageFor(model => model.JobName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.JobUrl, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.JobUrl, new { htmlAttributes = new { @class = "form-control", placeholder = "Request URL e.g. http://api.example.com/test" } })
+                @Html.ValidationMessageFor(model => model.JobUrl, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.RequestType, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.RequestType, new List<SelectListItem> {
+              new SelectListItem{ Text="GET"},
+              new SelectListItem{ Text="POST"},
+              new SelectListItem{ Text="PUT"},
+              new SelectListItem{ Text="DELETE"},
+
+             }, new { @class = "form-control" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.RepeatEvery, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.RepeatEvery, new List<SelectListItem> {
+                 new SelectListItem{ Text="Minutely"},
+                 new SelectListItem{ Text="Daily"},
+                 new SelectListItem{ Text="Hourly"},
+                 new SelectListItem{ Text="Monthly"},
+                 new SelectListItem{ Text="Yearly"},
+                 new SelectListItem{ Text="Do not Schedule"}
+
+                }, new { @class = "form-control" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
