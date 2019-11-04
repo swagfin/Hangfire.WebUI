@@ -8,6 +8,8 @@ using Owin;
 using Hangfire.WebUI.Models;
 using System.Diagnostics;
 using Hangfire.SqlServer;
+using Hangfire.Dashboard;
+using System.Web;
 
 namespace Hangfire.WebUI
 {
@@ -68,13 +70,12 @@ namespace Hangfire.WebUI
 
             //****************** HANGFIRE ****************
             //Register All Hangfire
-            var HangfireConnString = System.Web.Configuration.WebConfigurationManager.AppSettings["HangfireDefaultConnection"];
 
             Hangfire.GlobalConfiguration.Configuration
                 .SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
                 .UseSimpleAssemblyNameTypeSerializer()
                 .UseRecommendedSerializerSettings()
-                .UseSqlServerStorage(HangfireConnString, new SqlServerStorageOptions
+                .UseSqlServerStorage("DefaultConnection", new SqlServerStorageOptions
                 {
                     CommandBatchMaxTimeout = TimeSpan.FromMinutes(5),
                     SlidingInvisibilityTimeout = TimeSpan.FromMinutes(5),
@@ -83,13 +84,31 @@ namespace Hangfire.WebUI
                     UsePageLocksOnDequeue = true,
                     DisableGlobalLocks = true
                 });
+            //Authe
+            app.UseHangfireDashboard("/hangfire", new DashboardOptions()
+            {
+                Authorization = new[] { new HangFireAuthorizationFilter() }
+            });
 
+            //Init Jobs
             TaskForce.InitJobs();
             //Do you need Dashboard
             app.UseHangfireDashboard();
             //Init Server Starts When All Backgroud  Services has been DeclareD
             app.UseHangfireServer();
 
+        }
+
+    }
+
+
+
+    public class HangFireAuthorizationFilter : IDashboardAuthorizationFilter
+    {
+        public bool Authorize(DashboardContext context)
+        {
+            //can add some more logic here...
+            return HttpContext.Current.User.Identity.IsAuthenticated;
         }
     }
 }
