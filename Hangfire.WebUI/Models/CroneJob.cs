@@ -14,7 +14,6 @@ namespace Hangfire.WebUI.Models
         [MaxLength(255)]
         [Required]
         public string JobName { get; set; }
-        [DataType(DataType.Url)]
         [Display(Name = "Job URL Request")]
         [Required]
         public string JobUrl { get; set; }

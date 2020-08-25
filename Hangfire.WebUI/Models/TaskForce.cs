@@ -22,7 +22,7 @@ namespace Hangfire.WebUI.Models
                 if (RequestParams == null)
                     RequestParams = new List<KeyValuePair<string, string>>();
                 //Add Additional Params
-                RequestParams.Add(new KeyValuePair<string, string>("token", System.Guid.NewGuid().ToString()));
+                //RequestParams.Add(new KeyValuePair<string, string>("token", System.Guid.NewGuid().ToString()));
                 //Check
                 var request = new HttpRequestMessage(HttpMethod.Get, Url);
                 //Others
